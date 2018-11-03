@@ -1,4 +1,4 @@
-# Todo List Manager - Project Description
+# Group Chat Management - Project Description
 
 ![](../screenshots/home.png)
 
@@ -40,7 +40,7 @@ Socket.IO Events Documentation: http://chat.sharansingh.xyz/eventdoc
 - Here activate or deactivate the room by clicking Activate or Deactivate button respectively.
   - **Deactivated**
     - Your room will be removed from global rooms in lobby. But already joined users can still see your room and join the room from "Your Rooms" section.
-  - **Activatedt**
+  - **Activated**
     - Your room will be visible in Global Rooms and anybody can join the room.
 - You can edit the room name or room capacity by clicking Edit button.
 - You can delete the room.
