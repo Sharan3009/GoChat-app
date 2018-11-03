@@ -2,6 +2,10 @@
 
 A web app where you can create chat rooms and invite your friends to chat with them. A user can create, delete, activate, deactivate, join and leave active chat rooms as desired.
 
+### Dummy Credentials
+<b>Email</b> : dummy<br>
+<b>Password</b> : password
+
 [Click here](http://chat.sharansingh.xyz) to visit the GoChat.
 
 ### Screenshot
