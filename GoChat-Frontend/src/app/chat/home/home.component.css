@@ -1,0 +1,53 @@
+.full-height{
+    height:88.6vh;
+    overflow-y : auto;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+.chat-screen{
+    overflow-y:auto;
+    height:82vh;
+}
+.gray-bg{
+    background-color: #1E2129;
+}
+.purple-bg{
+    background-color:#292633;
+}
+.room-icon{
+    min-height:50px;
+    cursor:pointer;
+}
+.crop {
+    border-radius: 100%;
+    text-align: center;
+    padding:0.5em;
+    width: 2.5em;
+    height: 2.5em;
+    text-transform: uppercase;
+}
+.black-bg{
+    background-color: #000000;
+}
+.logo {
+    font-weight: bolder;
+    font-family: 'Neue Helvetica';
+    cursor: pointer;
+}

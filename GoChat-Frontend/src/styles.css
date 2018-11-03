@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Neue+Helvetica');
+
+.background-doodle {
+    background-image: url("./assets/background.jpg");
+    background-repeat: no-repeat;
+    min-height:100vh;
+    width:100vw;
+    padding:0;
+}
+
+#logo{
+    font-family: 'Neue Helvetica';
+    font-weight: bolder;
+    font-size: 4em;
+}
+.container, .container-full, .container-fluid{
+    word-break:break-all;
+}
+.margin{
+    margin:5px;
+}

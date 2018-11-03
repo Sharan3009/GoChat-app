@@ -1,0 +1,12 @@
+.room-icon{
+    min-height:50px;
+    cursor:pointer;
+}
+.crop {
+    border-radius: 100%;
+    text-align: center;
+    padding:0.5em;
+    width: 2.5em;
+    height: 2.5em;
+    text-transform: uppercase;
+}

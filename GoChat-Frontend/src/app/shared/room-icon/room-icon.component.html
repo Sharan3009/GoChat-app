@@ -1,0 +1,8 @@
+<div class="row text-light border-bottom room-icon" *ngIf="room.active==true">
+  <div class="col-auto d-flex align-items-center">
+    <div class="crop" [ngClass]="{'bg-danger': room.joinees.length == room.capacity ,'bg-success': room.joinees.length<room.capacity}">{{room.roomName[0]}}</div>
+  </div>
+  <div class="col">{{room.roomName}}<br><small>Joined : {{room.joinees.length}}/{{room.capacity}}</small></div>
+  <div *ngIf="checkUserNotInTheRoom(room)" class="col-auto d-flex align-items-center"><button type="button"
+      class="btn btn-primary btn-sm" (click)="validateAndNavigate(room)">Join</button></div>
+</div>

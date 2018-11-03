@@ -1,0 +1,166 @@
+<nav class="navbar navbar-expand-lg navbar-dark black-bg" *ngIf="roomFound==true">
+  <h1 class="logo" [routerLink]="['/home']"><span class="text-success">Go</span><span class="text-danger">Chat</span></h1>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse " id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item d-flex flex-direction-row" *ngIf="userInfo.userId==room.ownerId">
+        <button type="button" class="btn btn-success margin" data-toggle="modal" data-target="#editRoomModal">
+          Edit
+        </button>
+        <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Room</h5>
+              </div>
+              <div class="modal-body">
+                <label for="roomName">Room Name</label>
+                <input [(ngModel)]='roomName' type="text" class="form-control" id="roomName" placeholder="Enter the Room Name" required>
+                <label for="roomCapacity">Capacity</label>
+                <input [(ngModel)]='roomCapacity' type="Number" class="form-control" id="roomCapacity" placeholder="Size of Room" required>
+                <small class="form-group text text-muted" style="margin-left:5px;">
+                  Room size must be between 2 and 50
+                </small>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" [disabled]="roomName.length==0 || roomName.length>50 || roomCapacity<room.joinees.length || roomCapacity>50"
+                  class="btn btn-primary" (click)="editRoom()" data-dismiss="modal">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-gray margin ml-auto" data-toggle="modal" *ngIf="roomActive==true && userInfo.userId==room.ownerId"
+          data-target="#deactivateRoomModal">Deactivate</button>
+        <app-modal [id]="'deactivateRoomModal'" [title]="'Your room will not be visible in lobby and only the already joined users will be able to join'"
+          [buttonName]="'Deactivate'" (notify)="toggleActivate(false)"></app-modal>
+        <button type="button" class="btn btn-success margin ml-auto" data-toggle="modal" *ngIf="roomActive==false && userInfo.userId==room.ownerId"
+          data-target="#activateRoomModal">Activate</button>
+        <app-modal [id]="'activateRoomModal'" [title]="'Your room will be visible in lobby and everyone will be able to join'" [buttonName]="'Activate'"
+          (notify)="toggleActivate(true)"></app-modal>
+      </li>
+      <li class="nav-item d-flex flex-direction-row">
+        <button type="button" class="btn btn-danger margin" *ngIf="userInfo.userId==room.ownerId" data-toggle="modal" data-target="#deleteRoomModal">Delete</button>
+        <app-modal [id]="'deleteRoomModal'" [title]="'Are you sure you want to delete the room? It could not be reverted'" [buttonName]="'Delete'"
+          (notify)="deleteRoom()"></app-modal>
+        <button type="button" class="btn btn-danger margin" *ngIf="userInfo.userId!=room.ownerId" data-toggle="modal" data-target="#leaveRoomModal">Leave</button>
+        <app-modal [id]="'leaveRoomModal'" [title]="'Are you sure you want to leave the room?'" [buttonName]="'Leave'" (notify)="leaveRoom()"></app-modal>
+        <button type="button" class="btn btn-warning margin ml-auto" data-toggle="modal" data-target="#goBackModal">Back</button>
+        <app-modal [id]="'goBackModal'" [title]="'Are you sure you want to go back? This will not make you leave your room'" [buttonName]="'Yes'"
+          (notify)="goBackToPreviousPage()"></app-modal>
+      </li>
+      <li class="nav-item d-flex flex-direction-row">
+        <button id="membersButton" type="button" class="btn btn-success margin d-lg-none d-block" (click)="viewMembers()">Members</button>
+        <button id="chatsButton" type="button" class="btn btn-success margin d-lg-none d-none" (click)="viewChats()">Chat</button>
+        <button type="button" class="btn btn-primary margin ml-auto" data-toggle="modal" data-target="#logoutModal">Logout</button>
+        <app-modal [id]="'logoutModal'" [title]="'Do you want to logout?'" [buttonName]="'Logout'" (notify)="logout()"></app-modal>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container-fluid text-light" *ngIf="roomFound==true">
+  <div class="row">
+    <div id="members" class="col-lg-3 d-lg-block d-none col-12 gray-bg full-height">
+      <div class="row d-flex justify-content-center">
+        <h5 style="margin-top:10px;">{{room.roomName}}</h5>
+      </div>
+      <div class="row d-flex justify-content-center">Joined: {{room.joinees.length}}/{{room.capacity}}</div>
+      <br>
+      <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-success" (click)="shareRoom()">Share</button>
+      </div>
+      <br>
+      <div class="row d-flex justify-content-center">
+        <h5>Users</h5>
+      </div>
+      <div class="row border-bottom user-icon" style="margin-top:10px;">
+        <div class="col-auto d-flex align-items-center">
+          <div class="crop" [ngClass]="{'bg-success':isOnline(room.ownerId)==true,'bg-danger':isOnline(room.ownerId)==false}">{{room.ownerName[0]}}</div>
+        </div>
+        <div class="col">{{room.ownerName}}<br><small>Admin</small></div>
+        <div *ngIf="room.ownerId == userInfo.userId" class="col-auto d-flex align-items-center">You</div>
+      </div>
+      <div class="row" *ngFor="let user of room.joinees; let i=index">
+        <div class="col-12">
+          <div class="row border-bottom user-icon" *ngIf="user.userId != room.ownerId">
+            <div class="col-auto d-flex align-items-center">
+              <div class="crop" [ngClass]="{'bg-success':isOnline(user.userId)==true,'bg-danger':isOnline(user.userId)==false}">{{user.userName[0]}}</div>
+            </div>
+            <div class="col d-flex align-items-center">{{user.userName}}</div>
+            <div *ngIf="user.userId == userInfo.userId" class="col-auto d-flex align-items-center">You</div>
+            <div *ngIf="room.ownerId == userInfo.userId" class="col-auto d-flex align-items-center"><button type="button"
+                class="btn btn-danger btn-sm" data-toggle="modal" [attr.data-target]="'#kickUserModal'+i">Kick</button>
+              <div class="modal fade" [id]="'kickUserModal'+i" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title text-dark" id="exampleModalLongTitle">Kick {{user.userName}}?</h5>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="kick(user)">Kick</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="chats" class="col-lg-9 d-lg-block d-block col-12" style="background-color:#e0dbdb;">
+      <div #scrollMe [scrollTop]="(scrollToChatTop)?0:scrollMe.scrollHeight" class="chat-screen text-dark">
+        <div class="col-12 d-flex justify-content-center" style="cursor:pointer;" (click)="loadPreviousChat()" *ngIf="messageList.length>=20">Load
+          Previous Chat</div>
+        <div class="col-12 d-flex justify-content-center" *ngIf="loadingPreviousChat">Loading..</div>
+        <div class="text-dark d-flex flex-direction-column" *ngFor="let message of messageList">
+          <div *ngIf="message.senderId == userInfo.userId" class="col-lg-6 col-11">
+            <div class="p-2 float-left-message">
+              <div class="chat-green rounded">
+                <div class="col-12 w-100">
+                  <div>{{message.message}}
+                    <span class="text-muted small ml-auto">{{message.createdOn | date:'shortTime'}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-1"></div>
+          <div *ngIf="message.senderId != userInfo.userId" class="col-lg-6 col-11">
+            <div class="p-1 float-right-message">
+              <div class="chat-white rounded">
+                <div class="col-12 text-primary"><b>{{message.senderName}}</b></div>
+                <div class="col-12 w-100">
+                  <div>{{message.message}}
+                    <span class="text-muted small ml-auto">{{message.createdOn | date:'shortTime'}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="col">
+          <small class="text-muted" *ngIf="!isTyping">&nbsp;</small>
+          <small class="text-muted" *ngIf="isTyping">{{typer}} is typing...</small>
+          <input (keypress)="sendMessageUsingKeypress($event)" [(ngModel)]="roomChat" class="form-control" type="text" placeholder="Enter text here">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="roomFound == false" class="container-fluid d-flex justify-content-center align-items-center background-doodle"
+  style="width:100vw; height:100vh;">
+  <div class="card">
+    <img class="card-img-top" src="./assets/notfound.jpg" alt="Card image cap">
+    <div class="card-body">
+      <h1 class="card-title">Room not found</h1>
+      <p class="card-text">Please try again!</p>
+      <a [routerLink]="['/home']" class="btn btn-danger">Retry</a>
+    </div>
+  </div>
+</div>

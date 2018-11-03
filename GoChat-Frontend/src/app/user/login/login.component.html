@@ -1,0 +1,50 @@
+<div class="container-fluid background-doodle">
+  <div class="row h-100">
+    <div class="col align-self-center">
+      <div class="modal-content modal-dialog">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+              <h1 id="logo"><span class="text-success">Go</span><span class="text-danger">Chat</span></h1>
+            </div>
+          </div>
+          <div class="col-12 text-muted d-flex justify-content-center">
+            Best place to chill and be a part of a group
+          </div>
+          <div class="row modal-body">
+            <div class="col">
+              <form #loginUser="ngForm" (ngSubmit)="loginFunction(loginUser)">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input name='email' ngModel type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input name='password' ngModel type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1" ngModel name="rememberMe">
+                      <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <a [routerLink]="['/forgot']">Forgot Password?</a>
+                  </div>
+                </div>
+                <div class="modal-footer container">
+                  <div class="col">
+                    New User? <a [routerLink]="['/signup']">SignUp</a>
+                  </div>
+                  <button type="submit" class="btn btn-success" [disabled]="!loginUser.form.valid">Login</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

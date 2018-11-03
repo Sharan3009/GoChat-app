@@ -1,0 +1,81 @@
+<div class="container-fluid background-doodle">
+  <div class="row h-100">
+    <div class="col align-self-center">
+      <div class="modal-content modal-dialog">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+              <h1 id="logo"><span class="text-success">Go</span><span class="text-danger">Chat</span></h1>
+            </div>
+          </div>
+          <div class="col-12 text-muted text-center">
+            Best place to chill and be a part of a group
+          </div>
+          <div class="row modal-body">
+            <div class="col">
+              <form #createUser="ngForm" (ngSubmit)="signupFunction(createUser)">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <!-- [(ngModel)] and #ngModel name should not be same -->
+                  <input type="email" pattern = "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" name='email' #emailText="ngModel" ngModel class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Email Address" required>
+                    <small [hidden]="emailText.valid || emailText.untouched || emailText.errors?.required" class="form-group text text-danger" style="margin-left:5px;">
+                      <b>Email format should be <i>john@doe.com</i>.</b>
+                     </small>
+                     <small [hidden]="emailText.errors?.pattern || emailText.untouched || emailText.valid" class="form-group text text-danger" style="margin-left:5px;">
+                      <b>Email id is required</b>
+                     </small>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-lg-6 col-12">
+                      <label for="exampleInputfirstName1">First Name</label>
+                      <input type="text" name='firstName' ngModel #firstNameText="ngModel" class="form-control" id="exampleInputfirstName1" placeholder="First Name" required>
+                      <small [hidden]="firstNameText.untouched || firstNameText.valid" class="form-group text text-danger" style="margin-left:5px;">
+                        <b>FirstName is required</b>
+                       </small>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                      <label for="exampleInputlastName1">Last Name</label>
+                      <input type="text" class="form-control" name='lastName' ngModel id="exampleInputlastName1" placeholder="Last Name">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-lg-6 col-12">
+                      <label for="exampleInputPassword1">Password</label>
+                      <input type="password" name='password' minlength="8" ngModel #passwordText="ngModel" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                      <small [hidden]="passwordText.valid || passwordText.untouched || passwordText.errors?.required" class="form-group text text-danger" style="margin-left:5px;">
+                        <b>Password must be atleast 8 digit long</b>
+                       </small>
+                       <small [hidden]="passwordText.errors?.minlength || passwordText.untouched || passwordText.valid" class="form-group text text-danger" style="margin-left:5px;">
+                        <b>Password is required</b>
+                       </small>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                      <label for="exampleInputPassword2">Confirm Password</label>
+                      <input type="password" name='confirmPassword' ngModel #confirmPasswordText="ngModel" class="form-control" id="exampleInputPassword2" placeholder="Confirm Password" required>
+                      <small *ngIf = "confirmPasswordText.value!=passwordText.value && confirmPasswordText.dirty" class="form-group text text-danger" style="margin-left:5px;">
+                        <b>Passwords Doesnt Match</b>
+                       </small>
+                       <small [hidden]="confirmPasswordText.invalid || confirmPasswordText.value!=passwordText.value" class="form-group text text-success" style="margin-left:5px;">
+                        <b>Passwords Matched</b>
+                       </small>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer container">
+                  <div class="col">
+                    <a [routerLink]="['/login']">Login</a>
+                  </div>
+                  <button type="submit" class="btn btn-success" [disabled]="!createUser.form.valid || passwordText.value!=confirmPasswordText.value">Sign Up</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

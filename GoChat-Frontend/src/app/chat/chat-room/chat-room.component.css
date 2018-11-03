@@ -1,0 +1,75 @@
+.full-height{
+    height:88.6vh;
+    overflow-y:auto;
+}
+.gray-bg{
+    background-color: #1E2129;
+}
+.user-icon{
+    min-height:50px;
+    cursor:pointer;
+}
+.chat-screen{
+    overflow-x:hidden;
+    overflow-y:auto;
+    height:77vh;
+}
+.crop {
+    border-radius: 100%;
+    text-align: center;
+    padding:0.5em;
+    width: 2.5em;
+    height: 2.5em;
+    text-transform: uppercase;
+    color:black;
+}
+.black-bg{
+    background-color: #000000;
+}
+.logo {
+    font-weight: bolder;
+    font-family: 'Neue Helvetica';
+    cursor: pointer;
+}
+.float-left-message{
+    float:left;
+    display:flex;
+    flex-wrap:wrap;
+    max-width:50vw;
+}
+.float-right-message{
+    float:right;
+    display:flex;
+    flex-wrap:wrap;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+.chat-white{
+	background-color:#FFFFFF;
+}
+.chat-dim-white{
+	background-color:rgb(204, 199, 199);
+}
+.chat-green{
+	background-color: rgb(164, 240, 98);
+}
+.small{
+	font-size:0.6em;
+}
